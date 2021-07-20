@@ -1,9 +1,9 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
 // firebaseの初期化
-firebase.initializeApp = {
+const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE,
@@ -12,4 +12,22 @@ firebase.initializeApp = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+};
+
+firebase.initializeApp(firebaseConfig);
+
+// firebase.auth(認証系)からグーグルログインに関するProviderを呼び出す。
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+export const signInWithGoogle = () => {
+  // サインインに関するポップアップを出す。引数として上で定数に格納したもの。
+  firebase
+    .auth()
+    .signInWithPopup(googleProvider)
+    .then((res) => {
+      console.log(res.user);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 };
