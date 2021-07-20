@@ -18,7 +18,9 @@ firebase.initializeApp(firebaseConfig);
 
 // firebase.auth(認証系)からグーグルログインに関するProviderを呼び出す。
 const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const auth = firebase.auth();
 
+// サインインに関する関数
 export const signInWithGoogle = () => {
   // サインインに関するポップアップを出す。引数として上で定数に格納したもの。
   firebase
@@ -26,6 +28,22 @@ export const signInWithGoogle = () => {
     .signInWithPopup(googleProvider)
     .then((res) => {
       console.log(res.user);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+};
+
+//ログアウト用の関数
+export const logOut = () => {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      // ログアウトが成功したら表示
+      console.log('logged out');
+      // 画面を一度更新する
+      document.location.reload();
     })
     .catch((error) => {
       console.log(error.message);
