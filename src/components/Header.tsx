@@ -1,4 +1,4 @@
-import { signInWithGoogle, logOut } from '../service/firebase';
+import { signInWithGoogle, logOut } from '../service/Firebase';
 import { AuthContext } from '../provider/AuthProvider';
 import { useContext } from 'react';
 

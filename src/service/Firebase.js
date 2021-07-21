@@ -19,6 +19,7 @@ firebase.initializeApp(firebaseConfig);
 // firebase.auth(認証系)からグーグルログインに関するProviderを呼び出す。
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const auth = firebase.auth();
+export const db = firebase.firestore();
 
 // サインインに関する関数
 export const signInWithGoogle = () => {
