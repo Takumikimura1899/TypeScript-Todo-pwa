@@ -7,7 +7,21 @@ import { signInWithGoogle } from '../service/Firebase';
 const Dashboard = () => {
   const currentUser = useContext(AuthContext);
   const [inputName, setInputName] = useState<string>('');
+  const [todos, setTodos] = useState<string[]>([]);
   console.log(inputName);
+  console.log(todos);
+
+  useEffect(() => {
+    // Todo一覧を取得
+    fetch();
+  }, [currentUser]);
+
+  const fetch = async () => {
+    if (currentUser.currentUser) {
+      const data = await Api.initGet(currentUser.currentUser.uid);
+      await setTodos(data);
+    }
+  };
 
   const post = () => {
     // asでインポートしてきているので.繋ぎでアクセスできる。
