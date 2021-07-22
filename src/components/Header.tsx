@@ -19,13 +19,16 @@ const Header: React.FC = () => {
     <header>
       ヘッダー
       <br />
+      <p>関数宣言型</p>
       {buttonRender()}
       <br />
+      <p>三項演算子</p>
       {currentUser.currentUser ? (
         <button onClick={logOut}>ログアウト</button>
       ) : (
         <button onClick={signInWithGoogle}>ログイン</button>
       )}
+      <br />
     </header>
   );
 };

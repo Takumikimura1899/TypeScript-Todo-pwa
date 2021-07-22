@@ -5,11 +5,11 @@ import { db } from './Firebase';
 export const initGet: any = async (uid: string) => {
   // データベースから取ってくるまでawaitで待つ
   const todo = await db
-    // collectionのtodoから
+    // collectionのtodoの中から
     .collection('todo')
-    // 作られたのが新しい順から
+    // 作られたのが新しい順で
     .orderBy('createdAt', 'desc')
-    // uidが自分の物と一致するものから
+    // uidが自分の物と一致するものを
     .where('uid', '==', uid);
 
   return todo.get().then((snapShot: any) => {
@@ -39,4 +39,8 @@ export const addTodo = (content?: string | null, uid?: string | null) => {
     isComplete: false,
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   });
+};
+
+export const todoDelete = async (id: any) => {
+  await db.collection('todo').doc(id).delete();
 };

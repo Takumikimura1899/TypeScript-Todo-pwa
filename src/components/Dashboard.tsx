@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 // *as Api でApiからexportされているものを全てインポートするという意味になる。一個一個インポートしても良し。
 import * as Api from '../service/Api';
 import { AuthContext } from '../provider/AuthProvider';
 import { signInWithGoogle } from '../service/Firebase';
+import ToDoList from './ToDoList';
 
 const Dashboard = () => {
   const currentUser = useContext(AuthContext);
@@ -11,22 +12,23 @@ const Dashboard = () => {
   console.log(inputName);
   console.log(todos);
 
+  const fetch = useCallback(async () => {
+    if (currentUser.currentUser) {
+      const data = await Api.initGet(currentUser.currentUser.uid);
+      setTodos(data);
+    }
+  }, [currentUser.currentUser]);
+
   useEffect(() => {
     // Todo一覧を取得
     fetch();
-  }, [currentUser]);
-
-  const fetch = async () => {
-    if (currentUser.currentUser) {
-      const data = await Api.initGet(currentUser.currentUser.uid);
-      await setTodos(data);
-    }
-  };
+  }, [fetch]);
 
   const post = () => {
     // asでインポートしてきているので.繋ぎでアクセスできる。
     Api.addTodo(inputName, currentUser.currentUser.uid);
     setInputName('');
+    fetch();
   };
 
   const formRender = () => {
@@ -56,7 +58,13 @@ const Dashboard = () => {
     return dom;
   };
 
-  return <div>{formRender()}</div>;
+  return (
+    <div>
+      <br />
+      {formRender()}
+      <ToDoList todos={todos} fetch={fetch} />
+    </div>
+  );
 };
 
 export default Dashboard;
