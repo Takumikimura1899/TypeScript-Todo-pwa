@@ -44,3 +44,13 @@ export const addTodo = (content?: string | null, uid?: string | null) => {
 export const todoDelete = async (id: any) => {
   await db.collection('todo').doc(id).delete();
 };
+
+export const toggleComplete = async (id: any) => {
+  const todo: any = await db.collection('todo').doc(id).get();
+  return db
+    .collection('todo')
+    .doc(id)
+    .update({
+      isComplete: todo.data().isComplete ? false : true,
+    });
+};

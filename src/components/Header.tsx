@@ -5,8 +5,16 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => ({
+  toolbar: {
+    justifyContent: 'space-between',
+  },
+  button: {
+    color: '#FFF',
+  },
+}));
 
 const Header: React.FC = () => {
   // useContextを使用してAuthContextから値を取り出す。
@@ -15,29 +23,30 @@ const Header: React.FC = () => {
 
   const buttonRender = () => {
     if (currentUser.currentUser) {
-      return <button onClick={logOut}>ログアウト</button>;
+      return (
+        <Button className={classes.button} onClick={logOut}>
+          ログアウト
+        </Button>
+      );
     } else {
-      return <button onClick={signInWithGoogle}>ログイン</button>;
+      return (
+        <Button className={classes.button} onClick={signInWithGoogle}>
+          ログイン
+        </Button>
+      );
     }
   };
 
+  const classes = useStyles();
+
   return (
     <AppBar position='static'>
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         <Typography variant='h6'>
-          ヘッダー
+          ToDoList
           <br />
         </Typography>
-        <p>関数宣言型</p>
         {buttonRender()}
-        <br />
-        <p>三項演算子</p>
-        {currentUser.currentUser ? (
-          <button onClick={logOut}>ログアウト</button>
-        ) : (
-          <button onClick={signInWithGoogle}>ログイン</button>
-        )}
-        <br />
       </Toolbar>
     </AppBar>
   );
