@@ -22,10 +22,12 @@ const Header: React.FC = () => {
   };
 
   return (
-    <AppBar>
+    <AppBar position='static'>
       <Toolbar>
-        <Typography>ヘッダー</Typography>
-        <br />
+        <Typography variant='h6'>
+          ヘッダー
+          <br />
+        </Typography>
         <p>関数宣言型</p>
         {buttonRender()}
         <br />
